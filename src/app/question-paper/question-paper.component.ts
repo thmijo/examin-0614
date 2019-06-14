@@ -42,7 +42,7 @@ value : string = "temp";
     //console.log(this.questions);
   
   }
-  
+
   showQuestion(i:number) {
 
   if(this.attemptId==null) {
@@ -63,7 +63,6 @@ value : string = "temp";
        this.question = doc.data();
     }); 
   }  
-
 
   rbClick(i:number,selectedOption:string) {
     console.log ("value"+ this.value);
