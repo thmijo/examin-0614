@@ -40,7 +40,8 @@ tempQId : string;
       console.log ("Loading questions noww.sdasd 9999. "+eId);
      // this.examService.loadQuestions(eId);
       //console.log ("Loading questions noww.. "+message);
-      this.httpClient.get('https://jsonplaceholder.typicode.com/users').subscribe((res)=>{
+      
+      this.httpClient.get('https://raw.githubusercontent.com/ContinuousTesting/tempjson/master/question.json').subscribe((res)=>{
             console.log ("Tying it");
             console.log(res);
         }); 
