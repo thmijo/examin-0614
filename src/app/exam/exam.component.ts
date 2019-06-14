@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ExamService} from '../shared/exam.service';
-import { HttpClient } from '@angular/common/http';
+
 
 
 @Component({
@@ -12,7 +12,7 @@ export class ExamComponent implements OnInit {
 exams: any = [];
 tempQId : string;
 
-  constructor(private examService : ExamService,private httpClient: HttpClient) { }
+  constructor(private examService : ExamService) { }
 
   ngOnInit() {
     console.log("Getting Questions");
@@ -38,13 +38,11 @@ tempQId : string;
   }
  loadQuestions (eId:string) {
       console.log ("Loading questions noww.sdasd 9999. "+eId);
-     // this.examService.loadQuestions(eId);
+    //  this.examService.getQuestionsFromJson(eId);
+      this.examService.getQuestionsFromJson(eId);
       //console.log ("Loading questions noww.. "+message);
       
-      this.httpClient.get('https://raw.githubusercontent.com/ContinuousTesting/tempjson/master/question.json').subscribe((res)=>{
-            console.log ("Tying it");
-            console.log(res);
-        }); 
+      
   }
 
 }

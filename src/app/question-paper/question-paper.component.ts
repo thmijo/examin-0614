@@ -42,6 +42,7 @@ value : string = "temp";
     //console.log(this.questions);
   
   }
+  
   showQuestion(i:number) {
 
   if(this.attemptId==null) {

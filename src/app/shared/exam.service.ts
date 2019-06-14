@@ -7,6 +7,7 @@ import {
 import { map, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { Exam } from "./interfaces/exam";
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +22,7 @@ export class ExamService {
   eId : string;
   qArray : string[] = [];
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore,private httpClient: HttpClient) {}
 
   getExams(): Observable<any[]> {
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -61,7 +62,84 @@ export class ExamService {
     });
   }
 
-  loadQuestions(eId) {
+  getQuestionsFromJson(eId) {
+    
+    this.httpClient.get('https://raw.githubusercontent.com/ContinuousTesting/tempjson/master/question.json').subscribe((res)=>{
+            console.log ("Tying it from getQuestionsFromJson"+res.length);
+            console.log(res);
+            // console.log(res);
+            for (var i = 0; i < res.length; i++) {
+              console.log(res[i]);
+            }
+            this.loadQuestions(eId,res);
+        }); 
+
+  }
+  /*loadQuestions(res,eId) {
+    this.eId = eId;
+    this.qArray = [];
+    //let QId : string  [];
+    var batch = this.afs.firestore.batch(); 
+    const db = this.afs.firestore;
+    
+
+    for (var i = 0; i < res.length; i++) {
+      const ref = db.collection('questions').doc();
+      const id = ref.id;
+      this.qArray.push(id);
+     // var newCityRef = this.questionCollection.doc(id).ref;
+      batch.set(this.questionCollection.doc(id).ref, { q: 'What is Captial of 1',o1: 'Option1',o2: 'Option1',o3: 'Option1',ans:'o1'});
+       //    batch.set(this.questionCollection.doc(id).ref,res[i]); 	
+    }
+
+
+
+    const ref1 = db.collection('questions').doc();
+    const id1 = ref1.id;
+    this.qArray.push(id1);
+    var newCityRef1 = this.questionCollection.doc(id1).ref;
+    batch.set(newCityRef1, { q: 'What is Captial of 1',o1: 'Option1',o2: 'Option1',o3: 'Option1',ans:'o1'});
+
+    batch.commit().then( () => {
+     console.log ("batching "+this.qArray);
+     this.getExam(this.eId).set({ questionRef : this.qArray });
+    });
+
+  }  */
+
+  loadQuestions(eId,res) {
+    console.log ("Tying it from loadQuestions"+res.length);
+    this.eId = eId;
+    this.qArray = [];
+    //let QId : string  [];
+    var batch = this.afs.firestore.batch(); 
+    const db = this.afs.firestore;
+    
+
+    for (var i = 0; i < res.length; i++) {
+      const ref = db.collection('questions').doc();
+      const id = ref.id;
+      this.qArray.push(id);
+     // var newCityRef = this.questionCollection.doc(id).ref;
+     // batch.set(this.questionCollection.doc(id).ref, { q: 'What is Captial of 1',o1: 'Option1',o2: 'Option1',o3: 'Option1',ans:'o1'}); 	
+       batch.set(this.questionCollection.doc(id).ref, res[i]);
+    }
+
+
+   /* const ref1 = db.collection('questions').doc();
+    const id1 = ref1.id;
+    this.qArray.push(id1);
+    var newCityRef1 = this.questionCollection.doc(id1).ref;
+    batch.set(newCityRef1, res[0]); */
+
+    batch.commit().then( () => {
+     console.log ("batching "+this.qArray);
+     this.getExam(this.eId).set({ questionRef : this.qArray });
+    });
+
+  } 
+
+  loadQuestions_backup(eId) {
     this.eId = eId;
     this.qArray = [];
     //let QId : string  [];
@@ -91,7 +169,7 @@ export class ExamService {
 
   } 
 
-  loadQuestions_backup(eId) {
+  loadQuestions_backup_old(eId) {
     this.eId = eId;
     this.qArray = [];
     //let QId : string  [];
