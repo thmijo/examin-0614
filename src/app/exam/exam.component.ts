@@ -38,12 +38,12 @@ tempQId : string;
   }
  loadQuestions (eId:string) {
       console.log ("Loading questions noww.sdasd 9999. "+eId);
-      this.examService.loadQuestions(eId);
+     // this.examService.loadQuestions(eId);
       //console.log ("Loading questions noww.. "+message);
       this.httpClient.get('https://jsonplaceholder.typicode.com/users').subscribe((res)=>{
             console.log ("Tying it");
             console.log(res);
-        });
+        }); 
   }
 
 }
